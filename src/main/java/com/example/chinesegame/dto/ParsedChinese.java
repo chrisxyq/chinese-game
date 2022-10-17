@@ -11,10 +11,6 @@ import java.util.List;
 @Data
 public class ParsedChinese {
     /**
-     * 中文字
-     */
-//    private String chinese;
-    /**
      * 字映射的值
      */
     private String value;

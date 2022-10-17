@@ -16,6 +16,8 @@ public class Client {
 
     /**
      * todo：客户端消费服务端发来的数据
+     * todo：服务端记录map的数量
+     * todo：客户端记录map元素消费的剩余数量
      *
      * @param parsedChineseList：服务端发送的所有数据
      * @param consumeIndex：客户端消费的数据位置索引
