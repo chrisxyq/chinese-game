@@ -20,7 +20,9 @@ public class Test {
         List<String> chineseList = new ArrayList<>();
         chineseList.add("双");
         chineseList.add("夸");
-        ChineseParser chineseParser = new ChineseParser(chineseList);
-        System.out.println(chineseParser.getParsedChineseList());
+        Server server = new Server();
+        //1、服务端输出接口，服务端下发数据结构给前端
+        System.out.println(server.sendDataToClient(chineseList));
+
     }
 }

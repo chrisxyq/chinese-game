@@ -1,5 +1,10 @@
 package com.example.chinesegame;
 
+import com.example.chinesegame.dto.ParsedChinese;
+import com.example.chinesegame.utils.ChineseParser;
+
+import java.util.List;
+
 /**
  * Q、服务端保存汉字和偏旁的数据结构，并如何验证汉字组合正确？请用编码实现
  * 分两部分：
@@ -12,4 +17,30 @@ package com.example.chinesegame;
  * 4、并非是需要罗列所有汉字，而是总结出汉字拆解和合并的规律
  */
 public class Server {
+    /**
+     * 服务端保存汉字和偏旁的数据结构
+     */
+    private List<String> chineseList;
+    private List<ParsedChinese> parsedChineseList;
+
+    public List<String> getChineseList() {
+        return chineseList;
+    }
+
+    public List<ParsedChinese> getParsedChineseList() {
+        return parsedChineseList;
+    }
+
+    /**
+     * 1、服务端输出接口，服务端下发数据结构给前端
+     *
+     * @param chineseList
+     * @return
+     * @throws Exception
+     */
+    public List<ParsedChinese> sendDataToClient(List<String> chineseList) throws Exception {
+        this.chineseList = chineseList;
+        this.parsedChineseList = ChineseParser.parseList(chineseList);
+        return this.parsedChineseList;
+    }
 }

@@ -14,26 +14,8 @@ import java.util.List;
  * 得到 服务端下发给前端的数据结构
  */
 public class ChineseParser implements IChineseParser {
-    /**
-     * 双、夸、蠢、从、鹏、朋、森、林、好、孙、骑、霸
-     */
-    private List<String> chineseList;
-    private List<ParsedChinese> parsedChineseList;
 
-    public List<String> getChineseList() {
-        return chineseList;
-    }
-
-    public List<ParsedChinese> getParsedChineseList() {
-        return parsedChineseList;
-    }
-
-    public ChineseParser(List<String> chineseList) throws Exception {
-        this.chineseList = chineseList;
-        this.parsedChineseList = parseList(chineseList);
-    }
-
-    public List<ParsedChinese> parseList(List<String> list) throws Exception {
+    public static List<ParsedChinese> parseList(List<String> list) throws Exception {
         List<ParsedChinese> resList = new ArrayList<>();
         for (String s : list) {
             resList.addAll(parseChinese(s));
@@ -41,8 +23,7 @@ public class ChineseParser implements IChineseParser {
         return resList;
     }
 
-    @Override
-    public List<ParsedChinese> parseChinese(String chinese) throws Exception {
+    public static List<ParsedChinese> parseChinese(String chinese) throws Exception {
         List<ParsedChinese> parsedChineseList = null;
         switch (chinese){
             case "双":
@@ -69,7 +50,7 @@ public class ChineseParser implements IChineseParser {
                 parsedChineseList.add(parsedChinese2);
                 break;
             default:
-                break;
+                throw new UnsupportedOperationException("暂不支持该中文");
         }
         return parsedChineseList;
     }
