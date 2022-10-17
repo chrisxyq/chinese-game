@@ -4,6 +4,7 @@ import com.example.chinesegame.dto.ParsedChinese;
 import com.example.chinesegame.utils.ChineseParser;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Q、服务端保存汉字和偏旁的数据结构，并如何验证汉字组合正确？请用编码实现
@@ -21,14 +22,14 @@ public class Server {
      * 服务端保存汉字和偏旁的数据结构
      */
     private List<String> chineseList;
-    private List<ParsedChinese> parsedChineseList;
+    private Map<String,List<ParsedChinese>> parsedChineseMap;
 
     public List<String> getChineseList() {
         return chineseList;
     }
 
-    public List<ParsedChinese> getParsedChineseList() {
-        return parsedChineseList;
+    public Map<String, List<ParsedChinese>> getParsedChineseMap() {
+        return parsedChineseMap;
     }
 
     /**
@@ -38,9 +39,9 @@ public class Server {
      * @return
      * @throws Exception
      */
-    public List<ParsedChinese> sendDataToClient(List<String> chineseList) throws Exception {
+    public Map<String, List<ParsedChinese>> sendDataToClient(List<String> chineseList) throws Exception {
         this.chineseList = chineseList;
-        this.parsedChineseList = ChineseParser.parseList(chineseList);
-        return this.parsedChineseList;
+        this.parsedChineseMap = ChineseParser.parseList(chineseList);
+        return this.parsedChineseMap;
     }
 }

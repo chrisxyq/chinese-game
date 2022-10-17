@@ -1,9 +1,11 @@
 package com.example.chinesegame;
 
+import com.example.chinesegame.dto.ParsedChinese;
 import com.example.chinesegame.utils.ChineseParser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author chrisxu
@@ -22,7 +24,14 @@ public class Test {
         chineseList.add("夸");
         Server server = new Server();
         //1、服务端输出接口，服务端下发数据结构给前端
-        System.out.println(server.sendDataToClient(chineseList));
+        Map<String, List<ParsedChinese>> sendData = server.sendDataToClient(chineseList);
+        System.out.println(sendData);
+        //
+        Client client = new Client();
+//        client.receiveDataFromServer( sendData,
+//         consumeIndex,
+//         row,  column);
+
 
     }
 }
