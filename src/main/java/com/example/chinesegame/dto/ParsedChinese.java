@@ -10,7 +10,11 @@ import java.util.HashMap;
 @Data
 public class ParsedChinese {
     private ParsedChineseNode node;
-    private HashMap<String,Integer> leftMap;
-    private HashMap<String,Integer> rightMap;
-    private HashMap<String,Integer> downMap;
+    /**
+     * key为中文，value为笔画的值
+     */
+    private HashMap<String,String> leftMap;
+    private HashMap<String,String> rightMap;
+    private HashMap<String,String> downMap;
+
 }

@@ -1,15 +1,19 @@
 package com.example.chinesegame.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * ParsedChinese的属性
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ParsedChineseNode {
-    private String var;
+    private String chinese;
     /**
      * 字映射的值
      */
-    private Integer value;
+    private String value;
 }

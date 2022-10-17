@@ -5,7 +5,5 @@ import com.example.chinesegame.dto.ParsedChinese;
 import java.util.List;
 
 public interface IChineseParser {
-    static List<ParsedChinese> parse(List<String> list) {
-        return null;
-    }
+    List<ParsedChinese> parseChinese(String chinese) throws Exception;
 }
