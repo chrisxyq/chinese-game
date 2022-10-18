@@ -1,12 +1,9 @@
 package com.example.chinesegame.utils;
 
-import com.example.chinesegame.dto.Neighbor;
-import com.example.chinesegame.dto.ParsedChinese;
-import com.example.chinesegame.dto.ParsedChineseNode;
-import org.springframework.util.CollectionUtils;
+import com.example.chinesegame.dto.ParsedNode;
+import com.example.chinesegame.dto.StrokeNode;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * 读取中文字
@@ -14,65 +11,43 @@ import java.util.stream.Collectors;
  */
 public class ChineseParser implements IChineseParser {
 
-    public static Map<String,List<ParsedChinese>> parseList(List<String> list) throws Exception {
-        Map<String,List<ParsedChinese>> map = new HashMap<>();
+    public static Map<String, ParsedNode> parseChineseList(List<String> list) throws Exception {
+        Map<String, ParsedNode> map = new LinkedHashMap<>();
         for (String chinese : list) {
-            Map<String,List<ParsedChinese>> subMap = parseChinese(chinese);
-            for (String key : subMap.keySet()) {
-                if(map.containsKey(key)){
-                    map.get(key).addAll(subMap.get(key));
-                }else{
-                    map.put(key,subMap.get(key));
-                }
-            }
+            map.putAll(parseChinese(chinese));
         }
         return map;
     }
 
-    public static Map<String,List<ParsedChinese>> parseChinese(String chinese) throws Exception {
-        Map<String,List<ParsedChinese>> map = null;
+    public static Map<String, ParsedNode> parseChinese(String chinese) throws Exception {
+        Map<String, ParsedNode> map = new LinkedHashMap<>();
+        String key = StrokeComputer.getStrokeNum(chinese);
+        List<StrokeNode> nodeList = new ArrayList<>();
+        ParsedNode parsedNode = null;
         switch (chinese) {
             case "双":
-                ParsedChinese parsedChinese1 = new ParsedChinese();
-                parsedChinese1.setValue(StrokeComputer.getBiShun("又"));
-                HashMap<String, String> leftMap = new HashMap<>();
-                leftMap.put("又", StrokeComputer.getBiShun("又"));
-                parsedChinese1.setNeighborList(new ArrayList<>(Collections.singletonList(
-                        new Neighbor(leftMap, null, null))));
-                //
-                ParsedChinese parsedChinese2 = new ParsedChinese();
-                parsedChinese2.setValue(StrokeComputer.getBiShun("又"));
-                HashMap<String, String> rightMap = new HashMap<>();
-                rightMap.put("又", StrokeComputer.getBiShun("又"));
-                parsedChinese2.setNeighborList(new ArrayList<>(Collections.singletonList(
-                        new Neighbor(null, rightMap, null))));
-                //
-                map = new HashMap<>();
-                List<ParsedChinese> parsedChineseList =new ArrayList<>();
-                parsedChineseList.add(parsedChinese1);
-                parsedChineseList.add(parsedChinese2);
-                map.put("又",parsedChineseList);
+                nodeList.add(new StrokeNode("86", new int[]{0, 0, 0, 1}));
+                nodeList.add(new StrokeNode(StrokeComputer.getStrokeNum("又"), new int[]{0, 0, 1, 0}));
+                parsedNode = new ParsedNode(nodeList, new String[]{"86",
+                        StrokeComputer.getStrokeNum("又")});
                 break;
             case "夸":
-                parsedChinese1 = new ParsedChinese();
-                parsedChinese1.setValue(StrokeComputer.getBiShun("大"));
-                HashMap<String, String> downMap = new HashMap<>();
-                downMap.put("亏", StrokeComputer.getBiShun("亏"));
-                parsedChinese1.setNeighborList(new ArrayList<>(Collections.singletonList(
-                        new Neighbor(null, null, downMap))));
-                map = new HashMap<>();
-                map.put("大",new ArrayList<>(Collections.singletonList(
-                        parsedChinese1)));
-                //
-                parsedChinese2 = new ParsedChinese();
-                parsedChinese2.setValue(StrokeComputer.getBiShun("亏"));
-                map.put("亏",new ArrayList<>(Collections.singletonList(
-                        parsedChinese2)));
+                nodeList.add(new StrokeNode(StrokeComputer.getStrokeNum("大"), new int[]{0, 1, 0, 0}));
+                nodeList.add(new StrokeNode(StrokeComputer.getStrokeNum("亏"), new int[]{1, 0, 0, 0}));
+                parsedNode = new ParsedNode(nodeList, new String[]{StrokeComputer.getStrokeNum("大"),
+                        StrokeComputer.getStrokeNum("亏")});
+                break;
+            case "霸":
+                nodeList.add(new StrokeNode("16826666", new int[]{0, 1, 0, 0}));
+                nodeList.add(new StrokeNode(StrokeComputer.getStrokeNum("革"), new int[]{1, 0, 0, 1}));
+                nodeList.add(new StrokeNode(StrokeComputer.getStrokeNum("月"), new int[]{0, 0, 1, 0}));
+                parsedNode = new ParsedNode(nodeList, new String[]{"16826666",
+                        StrokeComputer.getStrokeNum("革"),StrokeComputer.getStrokeNum("月")});
                 break;
             default:
                 throw new UnsupportedOperationException("暂不支持该中文");
         }
-
+        map.put(key, parsedNode);
         return map;
     }
 }

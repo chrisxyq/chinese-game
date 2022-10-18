@@ -13,7 +13,13 @@ public class StrokeComputer {
     private static String COLON = "：";
     private static String COMMA = ",";
 
-    public static String getBiShun(String str) throws Exception {
+    /**
+     * 获取中文字对应的笔顺字符
+     * @param str
+     * @return
+     * @throws Exception
+     */
+    public static String getStrokeNum(String str) throws Exception {
         StringBuilder res = new StringBuilder();
         String biShunAndBiShu = getBiShunAndBiShu(str);
         //  我字共7画；我字的笔顺：撇,横,竖钩,提,斜钩,撇,点
@@ -59,11 +65,11 @@ public class StrokeComputer {
         return returnStr.toString();
     }
 
-    public static void main(String[] args) throws Exception {
-        String str = "我爱你中国";
-        System.out.println(str);
-        for (int i = 0; i < str.length(); i++) {
-            System.out.println(getBiShunAndBiShu(str.substring(i, i + 1)));
-        }
-    }
+    //public static void main(String[] args) throws Exception {
+    //    String str = "我爱你中国";
+    //    System.out.println(str);
+    //    for (int i = 0; i < str.length(); i++) {
+    //        System.out.println(getBiShunAndBiShu(str.substring(i, i + 1)));
+    //    }
+    //}
 }

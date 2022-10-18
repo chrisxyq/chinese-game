@@ -1,8 +1,12 @@
 package com.example.chinesegame;
 
-import com.example.chinesegame.dto.ParsedChinese;
+import com.example.chinesegame.dto.ParsedNode;
+import com.example.chinesegame.dto.SendDataToClientResponse;
+import com.example.chinesegame.dto.StrokeNode;
 import com.example.chinesegame.utils.ChineseParser;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -21,14 +25,14 @@ public class Server {
     /**
      * 服务端保存汉字和偏旁的数据结构
      */
-    private List<String> chineseList;
-    private Map<String,List<ParsedChinese>> parsedChineseMap;
+    private List<String>            chineseList;
+    private Map<String, ParsedNode> parsedChineseMap;
 
     public List<String> getChineseList() {
         return chineseList;
     }
 
-    public Map<String, List<ParsedChinese>> getParsedChineseMap() {
+    public Map<String, ParsedNode> getParsedChineseMap() {
         return parsedChineseMap;
     }
 
@@ -39,9 +43,31 @@ public class Server {
      * @return
      * @throws Exception
      */
-    public Map<String, List<ParsedChinese>> sendDataToClient(List<String> chineseList) throws Exception {
+    public SendDataToClientResponse sendDataToClient(List<String> chineseList) throws Exception {
         this.chineseList = chineseList;
-        this.parsedChineseMap = ChineseParser.parseList(chineseList);
-        return this.parsedChineseMap;
+        this.parsedChineseMap = ChineseParser.parseChineseList(chineseList);
+        List<StrokeNode> strokeNodeList = new ArrayList<>();
+        List<String[]> wordList = new ArrayList<>();
+        System.out.println(parsedChineseMap);
+        for (String key : this.parsedChineseMap.keySet()) {
+            ParsedNode parsedNode = this.parsedChineseMap.get(key);
+            strokeNodeList.addAll(parsedNode.getStrokeNodeList());
+            wordList.add(parsedNode.getWord());
+        }
+        Collections.reverse(strokeNodeList);
+        return new SendDataToClientResponse(strokeNodeList, wordList);
+    }
+
+    /**
+     * 服务端校验客户端的匹配结果
+     * 时间复杂度o(1)
+     *
+     * @param pathStr
+     * @return
+     */
+    public boolean validateMatchResult(String pathStr) {
+        boolean res = parsedChineseMap.containsKey(pathStr);
+        System.out.println(String.format("服务端校验匹配结果为:%s，匹配字符为：%s", res, pathStr));
+        return res;
     }
 }
